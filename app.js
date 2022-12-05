@@ -20,10 +20,11 @@ app.use(express.json());
 app.use(helmet());
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use(rateLimiter);
+
 // Логгер запросов
 app.use(requestLogger);
 
+app.use(rateLimiter);
 app.use(router);
 
 // Логгер ошибок

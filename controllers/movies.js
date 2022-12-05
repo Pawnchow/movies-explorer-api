@@ -7,9 +7,10 @@ const {
 } = require('../utils/errorMessages');
 
 const getMovies = (req, res, next) => {
-  Movie.find({})
+  const owner = req.user._id;
+  Movie.find({ owner })
     .then((movies) => res.send(movies))
-    .catch((err) => next(err));
+    .catch(next);
 };
 
 const createMovie = (req, res, next) => {
@@ -57,7 +58,8 @@ const deleteMovie = (req, res, next) => {
         next(new ForbiddenError(MOVIE_DELETE_FORBIDDEN));
       } else {
         movie.remove()
-          .then(() => res.send(movie));
+          .then(() => res.send(movie))
+          .catch(next);
       }
     })
     .catch((err) => {
